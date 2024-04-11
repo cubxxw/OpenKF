@@ -19,8 +19,10 @@ WORKDIR /openkf-web
 
 COPY . .
 
-RUN npm set registry http://registry.npm.taobao.org/ \ 
-    && npm install --registry=http://registry.npm.taobao.org \
+RUN npm config get registry &> /dev/null && NPM_REGISTRY=https://registry.npmjs.org/ || NPM_REGISTRY=http://registry.npm.taobao.org/
+
+RUN npm set registry $NPM_REGISTRY \
+    && npm install --registry=$NPM_REGISTRY \
     && chmod +x scripts/setup.sh && ./scripts/setup.sh \
     && npm run build
 

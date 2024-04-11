@@ -31,26 +31,79 @@ REPOSITORY                                            TAG                 IMAGE 
 openkf-server                                         latest              f1676becc5ce   About a minute ago   60.5MB
 ...
 ```
-## Run images
 
-### Use docker-compose to run backend without OpenIMServer
+## Getting Started Guide: Docker Compose with Profiles
+
+Welcome to our quick start guide designed to help you get up and running with our backend services using Docker Compose. By utilizing Docker Compose profiles, you can easily manage and run services tailored to different environments (development, testing, and production) from a single `docker-compose.yaml` file. This approach simplifies configuration management and enhances your workflow. Let's dive in!
+
+### Prerequisites
+
+- Docker and Docker Compose installed on your machine.
+- Basic understanding of Docker concepts.
+- Our `docker-compose.yaml` file downloaded to your project directory.
+
+### Understanding Profiles
+
+In our `docker-compose.yaml`, services are organized into profiles named `dev`, `test`, and `prod`. These profiles correspond to development, testing, and production environments, respectively. You'll select a profile to run the services relevant to your current needs.
+
+### Starting Services with Profiles
+
+1. **Development Environment**
+
+   To start the services in a development environment, where you might need live code reloading and debugging tools, use the following command:
+
+   ```bash
+   docker-compose --profile dev up -d
+   ```
+
+   This command starts all services marked with the `dev` profile in detached mode, allowing you to continue using your terminal.
+
+2. **Testing Environment**
+
+   For running services in a testing environment, which could include test databases and mock services, execute:
+
+   ```bash
+   docker-compose --profile test up -d
+   ```
+
+   Services configured under the `test` profile will be initiated, facilitating your testing processes.
+
+3. **Production Environment**
+
+   To launch services in a production environment, optimized for performance and security, run:
+
+   ```bash
+   docker-compose --profile prod up -d
+   ```
+
+   This will start all services designated for production use, ensuring your application runs smoothly in a live setting.
+
+### Checking Container Status
+
+To view the status of running containers, use:
 
 ```bash
-docker-compose -f docker-compose/docker-compose-dev.yaml up -d
+docker-compose ps
 ```
 
-You can check the containers by running the following commands:
+This command lists all containers initiated by Docker Compose, providing you with a quick overview of their statuses.
+
+### Viewing Service Logs
+
+To monitor the logs of a specific service for troubleshooting or performance analysis, execute:
+
 ```bash
-$ docker-compose -f docker-compose/docker-compose-dev.yaml ps
-
-NAME                IMAGE                  COMMAND                  SERVICE             CREATED             STATUS                         PORTS
-openkf-minio        minio/minio            "/usr/bin/docker-ent…"   minio               8 minutes ago       Up 27 seconds                  0.0.0.0:9100->9000/tcp, :::9100->9000/tcp, 0.0.0.0:9190->9090/tcp, :::9190->9090/tcp
-openkf-mysql        mysql:latest           "docker-entrypoint.s…"   mysql               47 minutes ago      Restarting (1) 7 seconds ago   
-openkf-redis        redis:latest           "docker-entrypoint.s…"   redis               47 minutes ago      Up 29 seconds                  0.0.0.0:6479->6379/tcp, :::6479->6379/tcp
-openkf-server       openkf-server:latest   "./docker_init_serve…"   server              30 seconds ago      Up 5 seconds                   0.0.0.0:10010->10010/tcp, :::10010->10010/tcp                                                                             3.2s
+docker-compose logs [service_name]
 ```
 
-Check the logs of the server container:
+Replace `[service_name]` with the actual name of the service whose logs you wish to view.
+
+### Stopping Services
+
+When you're ready to stop all services, simply run:
+
 ```bash
-$ docker-compose -f docker-compose/docker-compose-dev.yaml logs
+docker-compose down
 ```
+
+This command stops and removes all containers, networks, and volumes created by `up`.
