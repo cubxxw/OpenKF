@@ -248,6 +248,49 @@
                 }
             }
         },
+        "/api/v1/admin/staff/update": {
+            "post": {
+                "description": "Update staff info",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "UpdateStaff",
+                "parameters": [
+                    {
+                        "description": "UpdateUserInfoParams",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestparams.UpdateUserInfoParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/common/file/upload": {
             "post": {
                 "description": "upload a file",
@@ -494,25 +537,19 @@
         },
         "/api/v1/login/account": {
             "post": {
-                "description": "login with account",
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "logout with account",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "user"
                 ],
-                "summary": "AccountLogin",
-                "parameters": [
-                    {
-                        "description": "LoginParamsWithAccount",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requestparams.LoginParamsWithAccount"
-                        }
-                    }
-                ],
+                "summary": "AccountExit",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -545,6 +582,77 @@
                     "openim"
                 ],
                 "summary": "OpenIMCallback",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/platform/slack/config": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get slack config",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "platform"
+                ],
+                "summary": "SlackConfig",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/platform/slack/customer": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get slack user info",
+                "tags": [
+                    "platform"
+                ],
+                "summary": "GetSlackCustomer",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -678,6 +786,54 @@
                 }
             }
         },
+        "/api/v1/user/statistics": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get user statistics",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "GetUserStatistics",
+                "parameters": [
+                    {
+                        "description": "GetUsersStatisticsParams",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requestparams.GetUsersStatisticsParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user/update": {
             "post": {
                 "security": [
@@ -785,7 +941,6 @@
         "requestparams.CommunityParams": {
             "type": "object",
             "required": [
-                "avatar",
                 "email",
                 "name"
             ],
@@ -809,11 +964,9 @@
         "requestparams.CreateBotParams": {
             "type": "object",
             "required": [
-                "avatar",
                 "bot_addr",
                 "bot_port",
                 "bot_token",
-                "description",
                 "nickname"
             ],
             "properties": {
@@ -883,6 +1036,26 @@
                 }
             }
         },
+        "requestparams.GetUsersStatisticsParams": {
+            "type": "object",
+            "required": [
+                "end_timestamp",
+                "start_timestamp",
+                "type"
+            ],
+            "properties": {
+                "end_timestamp": {
+                    "type": "integer"
+                },
+                "start_timestamp": {
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "online_time, message_count, message_length",
+                    "type": "string"
+                }
+            }
+        },
         "requestparams.LoginParamsWithAccount": {
             "type": "object",
             "required": [
@@ -939,6 +1112,39 @@
                 }
             }
         },
+        "requestparams.UpdateUserInfoParams": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "Avatar is optional.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Description is optional.",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "Email can not be updated is this period.",
+                    "type": "string"
+                },
+                "is_admin": {
+                    "description": "IsAdmin is optional.",
+                    "type": "boolean"
+                },
+                "is_enable": {
+                    "description": "Need to check if the user is admin.",
+                    "type": "boolean"
+                },
+                "nickname": {
+                    "description": "Nickname is optional.",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "uuid is used for admin to update user info.",
+                    "type": "string"
+                }
+            }
+        },
         "response.Response": {
             "type": "object",
             "properties": {
@@ -955,7 +1161,7 @@
     "securityDefinitions": {
         "ApiKeyAuth": {
             "type": "apiKey",
-            "name": "Authorization",
+            "name": "Authorization.",
             "in": "header"
         }
     }
