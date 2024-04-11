@@ -369,9 +369,9 @@ swagger: tools.verify.swagger
 	@echo "===========> Generating swagger API docs"
 	@$(TOOLS_DIR)/swagger generate spec --scan-models -w $(ROOT_DIR)/server/cmd/gendocs -o $(ROOT_DIR)/server/docs/swagger.yaml
 
-## serve-swagger: Serve swagger spec and docs.
-.PHONY: swagger.serve
-serve-swagger: tools.verify.swagger
+## swagger.server: Serve swagger spec and docs.
+.PHONY: swagger.server
+swagger.server: tools.verify.swagger
 	@$(TOOLS_DIR)/swagger serve -F=redoc --no-open --port 36666 $(ROOT_DIR)/server/docs/swagger.yaml
 
 ## release: release the project
