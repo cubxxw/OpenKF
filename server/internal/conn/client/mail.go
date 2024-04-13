@@ -17,6 +17,7 @@ package client
 import (
 	"fmt"
 	"net/smtp"
+	"time"
 
 	"github.com/jordan-wright/email"
 
@@ -41,9 +42,23 @@ func InitMail() {
 	// 	),
 	// )
 
-	// Send test email
-	if err := SendEmail(config.Config.Email.From, "OpenKF Init Email", "OpenKF Email Init Test..."); err != nil {
-		log.Panicf("Email", "Init Email failed:%s", err.Error())
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
+
+	emailContent := fmt.Sprintf(`
+# OpenKF Initialization Email
+
+This is a test email to verify the email setup for OpenKF.
+
+- **Timestamp**: %s
+- **Environment**: Development
+- **Sender**: %s
+
+_This email confirms that the OpenKF email service is properly configured and operational._
+
+**Thank you for using OpenKF!**`, currentTime, config.Config.Email.From)
+
+	if err := SendEmail(config.Config.Email.From, "OpenKF Init Email", emailContent); err != nil {
+		log.Panicf("Email initialization failed: %s", err.Error())
 	}
 }
 
