@@ -175,6 +175,14 @@ EXCLUDE_TESTS=github.com/openimsdk/openkf/test
 .PHONY: all
 all: copyright-verify tidy lint cover build
 
+## init: Init Config
+.PHONY: init
+init:
+	@echo "===========> Init Config"
+	@cp -f $(ROOT_DIR)/server/config.example.yaml $(ROOT_DIR)/server/config.yaml
+	@cp -f $(ROOT_DIR)/server/config.example.yaml $(ROOT_DIR)/server/config.docker.yaml
+	@cp -f $(ROOT_DIR)/bot/config.example.yaml $(ROOT_DIR)/bot/config.yaml
+
 ## build: Build binaries by default.
 .PHONY: build
 build: # go.build.verify $(addprefix go.build., $(addprefix $(PLATFORM)., $(BINS)))

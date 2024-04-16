@@ -45,17 +45,17 @@ func InitMail() {
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 
 	emailContent := fmt.Sprintf(`
-# OpenKF Initialization Email
+## OpenKF Initialization Email
 
 This is a test email to verify the email setup for OpenKF.
 
-- **Timestamp**: %s
-- **Environment**: Development
-- **Sender**: %s
+1. Timestamp: %s
+2. Environment: Development
+3. Sender: %s
 
 _This email confirms that the OpenKF email service is properly configured and operational._
 
-**Thank you for using OpenKF!**`, currentTime, config.Config.Email.From)
+Thank you for using OpenKF!`, currentTime, config.Config.Email.From)
 
 	if err := SendEmail(config.Config.Email.From, "OpenKF Init Email", emailContent); err != nil {
 		log.Panicf("Email initialization failed: %s", err.Error())

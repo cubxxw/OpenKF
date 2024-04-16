@@ -78,7 +78,7 @@ slack:
   bot_token: 
   app_token: 
   app_id: # need to give string, like '1821.42'
-  client_id: 
-  client_secret: 
+  client_id:
+  client_secret:
   signing_secret:
   verification_token: 

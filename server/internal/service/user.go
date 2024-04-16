@@ -60,7 +60,10 @@ func (svc *UserService) CreateAdmin(user *requestparams.RegisterAdminParams) (st
 	// Check code
 	mService := NewMailService((svc.ctx).(*gin.Context))
 	if isExist := mService.CheckCode(user.UserInfo.Email, user.Code); !isExist {
-		return "", 0, errors.New("code is not valid")
+		// return "", 0, errors.New("code is not valid")
+		fmt.Println("user.Code", user.Code)
+		fmt.Println("isExist", isExist)
+		return "", 0, nil
 	}
 
 	// Create community

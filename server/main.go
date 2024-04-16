@@ -36,7 +36,7 @@ func init() {
 	db.InitRedisDB()
 	db.InitInfluxDB()
 	client.InitMinio()
-	// client.InitMail()
+	client.InitMail()
 	hooks.InitHooks()
 }
 

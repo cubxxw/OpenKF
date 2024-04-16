@@ -8,7 +8,9 @@
 *.orig
 *.tmp
 openkf.pid
-bot/config.yaml
+
+config.yaml
+config.docker.yaml
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
